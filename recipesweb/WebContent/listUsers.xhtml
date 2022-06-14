@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Użytkownicy
+	</ui:define>
+
+	<ui:define name ="content">	
+		
+		<p:panel header="Użytkownicy">
+		
+			<h:form id="form-table">
+		
+				<p:dataTable value="#{userBB.fullList}" var="i" rows="5" paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+				
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Login" />
+						</f:facet>
+						<h:outputText value="#{i.user.login}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Rola" />
+						</f:facet>
+						<h:outputText value="#{i.role.role_Name}" />
+					</p:column>
+										
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data przypisania" />
+						</f:facet>
+						<h:outputText value="#{i.date}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Przypisał" />
+						</f:facet>
+						<h:outputText value="#{i.assigned}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Zmień Role" />
+						</f:facet>
+						<p:commandButton value="Zmień Role" action="#{userBB.putUser(i)}" />
+					</p:column>
+				
+				</p:dataTable>
+				
+				<p:messages id="msgs" severity = "info, warn" />
+			
+			</h:form>
+		
+		</p:panel>
+		
+		<p:panel>
+			<p:button  value="Wróć" styleClass="ui-button-danger" outcome="listRecipes?faces-redirect=true"/>
+		</p:panel>
+	
+	</ui:define>
+	
+</ui:composition>
+
+</html>			

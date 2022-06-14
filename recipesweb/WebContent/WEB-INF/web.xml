@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+  
+  <context-param>
+    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+  </context-param>
+  
+  <filter>
+		<filter-name>SecurityFilter</filter-name>
+		<filter-class>javax.faces.simplesecurity.SecurityFilter</filter-class>
+		<init-param>
+			<param-name>noPermitionPage</param-name>
+			<param-value>/login.xhtml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>permissions</param-name>
+			<param-value>
+				/javax.faces.resource : PUBLIC;
+				/createUser.xhtml : PUBLIC;
+				/listRecipes.xhtml : Admin, Użytkownik, Moderator;
+				/addIngridient.xhtml : Admin, Użytkownik, Moderator;
+				/addRecipe.xhtml : Admin, Użytkownik, Moderator;
+				/listIngridients.xhtml : Admin, Użytkownik, Moderator;
+				/assignIngridient.xhtml : Admin, Użytkownik, Moderator;
+				/listUsers.xhtml : Admin;
+				/changeRole.xhtml : Admin;
+				/listNotAccepted.xhtml : Admin, Moderator;
+				/listYourRecipes.xhtml : Admin, Użytkownik, Moderator;
+				/seeRecipe.xhtml : Admin, Użytkownik, Moderator;
+				/editRecipe.xhtml : Admin, Użytkownik, Moderator;
+				/addEditIngridient.xhtml : Admin, Użytkownik, Moderator;
+				/editAddIngridient.xhtml : Admin, Użytkownik, Moderator;
+				/assignEditIngridient.xhtml : Admin, Użytkownik, Moderator;
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>invalidateOnRemoteAddressChange</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>invalidateOnRemoteHostChange</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>invalidateOnRemotePortChange</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  
+  <context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>arya</param-value>
+</context-param>
+  
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern> 
+  </servlet-mapping>
+  
+  	<session-config>
+		<session-timeout>20</session-timeout>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+  
+  <welcome-file-list>
+    <welcome-file>login.xhtml</welcome-file>
+  </welcome-file-list>
+
+</web-app>

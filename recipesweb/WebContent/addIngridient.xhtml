@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Dodaj Składnik
+	</ui:define>
+
+	<ui:define name ="content">
+	
+		<p:panel header="Dodaj Składnik">
+	
+			<h:form id = "bla">
+			
+				<h:panelGrid id = "grid" columns = "3" cellpadding = "7">
+					
+			    	<p:outputLabel for = "i-name" value = "Składnik"/>
+					<p:inputText id = "i-name" value="#{ingridientBB.ingridient.name}"  required = "true" requiredMessage = "Nie podano nazwy składnika."> </p:inputText>
+					<p:message for = "i-name"/>
+				  	 	
+				</h:panelGrid>
+						
+				<p:messages id="msgs" severity = "info, warn" />
+				
+				
+			    <p:commandButton value = "Dodaj" action = "#{ingridientBB.addIngridient()}" update="@form"/>
+				<p:button  value="Anuluj" outcome="listIngridients?faces-redirect=true" styleClass="ui-button-danger"/>
+
+			
+			</h:form>
+			
+		</p:panel>
+		
+	</ui:define>
+
+</ui:composition>	
+	
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Zatwierdź
+	</ui:define>
+
+	<ui:define name ="content">	
+		
+		<p:panel header="Niezatwierdzone przepisy">
+		
+			<h:form id="form-table">
+		
+				<p:dataTable value="#{recipeBB.notAcceptedList}" var="i" rows="5" paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+				
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nazwa" />
+						</f:facet>
+						<h:outputText value="#{i.name}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Rodzaj" />
+						</f:facet>
+						<h:outputText value="#{i.type}" />
+					</p:column>
+										
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Trudność" />
+						</f:facet>
+						<h:outputText value="#{i.difficulty}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Cena" />
+						</f:facet>
+						<h:outputText value="#{i.price}">
+							<f:convertNumber pattern="#0.00" />
+                		</h:outputText>zł
+					</p:column>
+					
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Stworzył" />
+						</f:facet>
+						<h:outputText value="#{i.user.login}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Akceptuj" />
+						</f:facet>
+						<p:commandButton value="Akceptuj" action="#{recipeBB.acceptRecipe(i)}" update="form-table"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Usuń" />
+						</f:facet>
+						<p:commandButton value="Usuń" action="#{recipeBB.deleteRecipe(i)}" styleClass="ui-button-danger" update="form-table">
+							<p:confirm type="popup" header="UWAGA" message="Czy na pewno chcesz usunąć przepis?" icon="pi pi-exclamation-triangle"/>
+						</p:commandButton>
+					</p:column>
+				
+				</p:dataTable>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+	            	<p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+	            	<p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" />
+	        	</p:confirmDialog>
+				
+				<p:messages id="msgs" severity = "info, warn" />
+			
+			</h:form>
+		
+		</p:panel>
+		
+		<p:panel>
+			<p:button  value="Wróć" styleClass="ui-button-danger" outcome="listRecipes?faces-redirect=true"/>
+		</p:panel>
+	
+	</ui:define>
+	
+</ui:composition>
+
+</html>			

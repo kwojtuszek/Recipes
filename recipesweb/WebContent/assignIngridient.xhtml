@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Przypisz Składnik
+	</ui:define>
+
+	<ui:define name ="content">
+	
+		<p:panel header="Przypisz Składnik">
+	
+			<h:form id = "bla">
+			
+				<h:panelGrid id = "grid" columns = "3" cellpadding = "7">
+				
+					<p:outputLabel for = "i-type" value = "Określ jednostkę"/>
+					<p:selectOneMenu id = "i-type" value="#{ingridientBB.recipesHasIngridient.type}"  required = "true" requiredMessage = "Nie podano jednostki">
+						<f:selectItem itemLabel="---" itemValue=""/>
+	                    <f:selectItem itemLabel="Gram" itemValue="Gram"/>
+	                    <f:selectItem itemLabel="Sztuk" itemValue="Sztuk"/>
+	                    <f:selectItem itemLabel="Opakowań" itemValue="Opakowań"/>
+	                    <f:selectItem itemLabel="Kilogarmów" itemValue="Kilogramów"/>
+	                    <f:selectItem itemLabel="Mililitrów" itemValue="Mililitrów"/>
+					</p:selectOneMenu>
+					<p:message for = "i-type"/>
+				    
+				    <p:outputLabel for = "i-amount" value = "Ilość"/>
+					<p:inputText id = "i-amount" value="#{ingridientBB.recipesHasIngridient.amount}"  required = "true" requiredMessage = "Nie podano ilości"></p:inputText>
+					<p:message for="i-amount"/>
+						
+				</h:panelGrid>
+					
+				<p:messages id="msgs" severity = "info, warn" />
+					
+				<p:commandButton value = "Przypisz" action = "#{ingridientBB.assignIngridient()}" update = "@form"/>
+				<p:button  value="Anuluj" outcome="listIngridients?faces-redirect=true" styleClass="ui-button-danger"/>
+				
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

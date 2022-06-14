@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Logowanie
+	</ui:define>
+
+	<ui:define name ="content">
+		
+			<p:panel header="Logowanie">
+		
+				<h:form id = "bla">
+				
+					<h:panelGrid id = "grid" columns = "3" cellpadding = "7">
+						
+							<p:outputLabel for = "u-login" value = "Login"/>
+					        <p:inputText id = "u-login" value="#{loginBB.user.login}"  required = "true" requiredMessage = "Nie podano loginu."></p:inputText>
+					        <p:message for = "u-login"/>
+							<p:outputLabel for = "u-pass" value = "Hasło"/>
+					        <p:password id = "u-pass" value="#{loginBB.user.pass}"  required = "true" requiredMessage = "Nie podano hasła."></p:password>
+					        <p:message for="u-pass"/>
+						
+					</h:panelGrid>
+					
+					<p:messages id="msgs" severity = "info, warn" />
+			
+					<p:commandButton value = "Zaloguj" action = "#{loginBB.login()}" update = "@form" styleClass = "ui-button-success"/>
+					<p:button  value="Stwórz Użytkownika" outcome="createUser?faces-redirect=true" styleClass="ui-button-secondary"/>
+				
+				</h:form>
+	
+			
+			</p:panel>
+		
+	</ui:define>
+
+</ui:composition>
+	
+</html>

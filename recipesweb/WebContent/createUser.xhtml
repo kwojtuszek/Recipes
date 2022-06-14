@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Stwórz Użytkownika
+	</ui:define>
+
+	<ui:define name ="content">
+	
+		<p:panel header="Stwórz Użytkownika">
+	
+			<h:form id = "bla">
+			
+				<h:panelGrid id = "grid" columns = "3" cellpadding = "7">
+					
+			    	<p:outputLabel for = "u-login" value = "Login"/>
+					<p:inputText id = "u-login" value="#{userBB.user.login}"  required = "true" requiredMessage = "Nie podano loginu." validatorMessage = "Login może mieć maksymalnie 8 znaków.">
+					 	<f:validateLength maximum="8"/>
+					</p:inputText>
+					<p:message for = "u-login"/>
+				  	 	
+					<p:outputLabel for = "u-pass" value = "Hasło"/>
+					<p:password id = "u-pass" value="#{userBB.user.pass}"  required = "true" requiredMessage = "Nie podano hasła."  validatorMessage = "Hasło może mieć maksymalnie 9 znaków.">
+						<f:validateLength maximum="9"/>
+					</p:password>
+					<p:message for="u-pass"/>
+					  
+				</h:panelGrid>
+						
+				<p:messages id="msgs" severity = "info, warn" />
+				
+				
+			    <p:commandButton value = "Stwórz" action = "#{userBB.addUser()}" update="@form"/>
+				<p:button  value="Anuluj" outcome="login?faces-redirect=true" styleClass="ui-button-danger"/>
+
+			
+			</h:form>
+			
+		</p:panel>
+		
+	</ui:define>
+
+</ui:composition>	
+	
+</html>

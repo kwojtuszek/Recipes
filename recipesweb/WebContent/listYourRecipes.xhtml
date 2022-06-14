@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name = "title">
+		Twoje Przepisy
+	</ui:define>
+
+	<ui:define name ="content">
+	
+		
+		<h:form id = "bla">
+			<p:menubar>
+		
+					<p:menuitem value="Dodaj przepis" action="addRecipe"/>
+						
+					<p:menuitem value="Zmień Role" action="listUsers"  styleClass="ui-button-help"
+							rendered = "#{remoteClient.isUser().equals('Administrator')}" />
+	
+					<p:menuitem value="Akceptuj Przepis" action="listNotAccepted"  styleClass="ui-button-success"
+							rendered = "#{remoteClient.isUser().equals('Administrator') || remoteClient.isUser().equals('Moderator')}" />
+								
+					<p:menuitem value="Wyloguj" action="#{loginBB.logout()}" styleClass="ui-button-danger"/>
+	
+					<p:submenu value = "Dane Użytkownika" icon="pi pi-fw pi-user">
+						<p:menuitem value="Zalogowany jako: #{remoteClient.details.login} " />
+						<p:menuitem value="Rola: #{remoteClient.isUser()}" />
+					</p:submenu>
+						
+			</p:menubar>
+			
+		</h:form>
+		
+		<p:panel header="Opcje Wyszukiwania" toggleable="true" collapsed="true">
+			<h:form>
+				<h:panelGrid if = "grid" columns="2" cellpadding="7">
+					<h:outputLabel value="Nazwa" />
+					<p:inputText value="#{recipeBB.name}" />
+					<p:commandButton value="Szukaj" update="form-table" />
+					<p:commandButton value="Wszystkie Przepisy" action = "listRecipes" styleClass="ui-button-warning"/>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+		
+		<h:form id="form-table">
+			
+			<p:dataTable value="#{recipeBB.yourList}" var="i" rows="5" paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+				
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nazwa" />
+						</f:facet>
+						<h:outputText value="#{i.name}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Rodzaj" />
+						</f:facet>
+						<h:outputText value="#{i.type}" />
+					</p:column>
+										
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Trudność" />
+						</f:facet>
+						<h:outputText value="#{i.difficulty}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Cena" />
+						</f:facet>
+						<h:outputText value="#{i.price}">
+							<f:convertNumber pattern="#0.00" />
+                		</h:outputText>zł
+					</p:column>
+					
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Stworzył" />
+						</f:facet>
+						<h:outputText value="#{i.user.login}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Zobacz" />
+						</f:facet>
+						<p:commandButton value="Zobacz" action="#{recipeBB.seeRecipe(i)}" render = "@all"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Edytuj" />
+						</f:facet>
+						<p:commandButton value="Edytuj" action="#{recipeBB.editView(i)}" styleClass="ui-button-secondary" rendered = "#{remoteClient.details.login.equals(i.user.login)}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Usuń" />
+						</f:facet>
+						<p:commandButton value="Usuń" action="#{recipeBB.deleteRecipe(i)}" styleClass="ui-button-danger" update="form-table" rendered = "#{remoteClient.details.login.equals(i.user.login)}">
+							<p:confirm type="popup" header="UWAGA" message="Czy na pewno chcesz usunąć przepis?" icon="pi pi-exclamation-triangle"/>
+						</p:commandButton>
+					</p:column>
+				
+				</p:dataTable>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+	            	<p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+	            	<p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" />
+	        	</p:confirmDialog>
+				
+				<p:messages id="msgs" severity = "info, warn" />
+			
+			</h:form>
+	
+		
+	
+	</ui:define>
+
+</ui:composition>
+
+</html>
